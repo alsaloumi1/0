@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 0 – المهام الرئيسية</title>
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="brand"><img src="img/logo.svg" alt="" width="28" height="28"><span>Project 0</span></div>
+    <nav class="nav-list" aria-label="التنقل الرئيسي">
+      <span class="nav disabled">لوحة المعلومات</span>
+      <span class="nav disabled">الوارد</span>
+      <a class="nav on" href="index.html" aria-current="page">المهام الرئيسية</a>
+      <span class="nav disabled">التقويم</span>
+      <span class="nav disabled">الإعدادات</span>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="head">
+      <h1>المهام الرئيسية</h1>
+      <button class="primary" disabled title="يتطلب ربط قاعدة البيانات">مهمة جديدة</button>
+    </header>
+    <div class="tabs" role="tablist" aria-label="طريقة العرض">
+      <button class="tab on" role="tab" data-view="table">جدول</button>
+      <button class="tab" role="tab" data-view="list">قائمة</button>
+      <button class="tab" role="tab" data-view="kanban">كانبان</button>
+    </div>
+    <div id="list"></div>
+    <p class="note">بيانات تجريبية محلية. لا يوجد اتصال بقاعدة البيانات، والتعديلات لا تُحفظ.</p>
+  </main>
+
+  <section class="panel" id="panel" hidden aria-label="تفاصيل المهمة"></section>
+
+</div>
+<script src="main.js"></script>
+</body>
+</html>
