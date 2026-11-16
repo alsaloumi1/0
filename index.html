@@ -1,46 +1,177 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project 0 – المهام الرئيسية</title>
-<link rel="icon" href="img/logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5fb">
+  <title>Project 0 — مساحة عملك</title>
+  <link rel="icon" href="img/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
-<div class="app">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Project 0 الرئيسية">
+        <img src="img/mark.svg" alt="" class="brand-mark">
+        <span><b>Project 0</b><small>مساحة واحدة لكل شيء</small></span>
+      </a>
 
-  <aside class="side">
-    <div class="brand"><img src="img/logo.svg" alt="" width="28" height="28"><span>Project 0</span></div>
-    <nav class="nav-list" aria-label="التنقل الرئيسي">
-      <span class="nav disabled">لوحة المعلومات</span>
-      <span class="nav disabled">الوارد</span>
-      <a class="nav on" href="index.html" aria-current="page">المهام الرئيسية</a>
-      <span class="nav disabled">التقويم</span>
-      <span class="nav disabled">الإعدادات</span>
-    </nav>
-  </aside>
+      <button class="workspace-switcher" id="workspaceSwitcher">
+        <span class="workspace-dot personal"></span>
+        <span class="switcher-copy"><small>مساحة العمل الحالية</small><b id="activeWorkspaceName">شخصي</b></span>
+        <span class="chevron">⌄</span>
+      </button>
 
-  <main class="main">
-    <header class="head">
-      <h1>المهام الرئيسية</h1>
-      <button class="primary" disabled title="يتطلب ربط قاعدة البيانات">مهمة جديدة</button>
-    </header>
-    <div class="tabs" role="tablist" aria-label="طريقة العرض">
-      <button class="tab on" role="tab" data-view="table">جدول</button>
-      <button class="tab" role="tab" data-view="list">قائمة</button>
-      <button class="tab" role="tab" data-view="kanban">كانبان</button>
-    </div>
-    <div id="list"></div>
-    <p class="note">بيانات تجريبية محلية. لا يوجد اتصال بقاعدة البيانات، والتعديلات لا تُحفظ.</p>
-  </main>
+      <div class="nav-label">مساحة العمل</div>
+      <nav class="main-nav">
+        <button class="nav-item active" data-view="calendar"><span class="nav-icon">▦</span> التقويم <span class="nav-count">●</span></button>
+        <button class="nav-item" data-view="tasks"><span class="nav-icon">☷</span> كل المهام</button>
+        <button class="nav-item" data-view="inbox"><span class="nav-icon">⌑</span> صندوق الوارد <span class="count-badge" id="inboxCount">3</span></button>
+        <button class="nav-item" data-view="recurring"><span class="nav-icon">↻</span> المهام المتكررة</button>
+      </nav>
 
-  <section class="panel" id="panel" hidden aria-label="تفاصيل المهمة"></section>
+      <div class="nav-label row-between"><span>مساحات العمل</span><button class="tiny-add" id="addWorkspace" title="إضافة مساحة">＋</button></div>
+      <div class="workspace-list" id="workspaceList">
+        <button class="workspace-row selected" data-workspace="شخصي"><i class="workspace-dot personal"></i> شخصي</button>
+        <button class="workspace-row" data-workspace="Project 0"><i class="workspace-dot purple"></i> Project 0</button>
+        <button class="workspace-row" data-workspace="العمل"><i class="workspace-dot blue"></i> العمل</button>
+      </div>
 
-</div>
-<script src="main.js"></script>
+      <div class="nav-label row-between"><span>التنظيم</span><button class="tiny-add" id="addFolder" title="إضافة مجلد">＋</button></div>
+      <div class="folder-tree">
+        <button class="tree-row"><span>▾</span> المشاريع</button>
+        <button class="tree-child"><span class="tree-bullet"></span> إطلاق الموقع</button>
+        <button class="tree-child"><span class="tree-bullet"></span> أفكار مستقبلية</button>
+        <button class="tree-row"><span>▸</span> الحياة الشخصية</button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="nav-item"><span class="nav-icon">⚙</span> الإعدادات</button>
+        <div class="profile">
+          <div class="avatar">ن</div>
+          <div><b>حسابي</b><small>المساحة الشخصية</small></div>
+          <span class="more">···</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="القائمة">☰</button>
+        <div class="breadcrumb"><span>مساحة العمل</span><b>/</b><strong id="breadcrumbWorkspace">شخصي</strong></div>
+        <div class="top-actions">
+          <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="ابحث عن مهمة أو مشروع..."></label>
+          <button class="icon-button" title="الإشعارات">♧</button>
+          <button class="avatar small-avatar" title="الملف الشخصي">ن</button>
+        </div>
+      </header>
+
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span> نظرة عامة</div>
+          <h1 id="pageTitle">التقويم</h1>
+          <p>رتّب وقتك، وشاهد الصورة الكاملة لكل ما تعمل عليه.</p>
+        </div>
+        <button class="primary-button" id="newTaskBtn"><span>＋</span> إضافة مهمة</button>
+      </section>
+
+      <section class="stats-grid" aria-label="ملخص المهام">
+        <article class="stat-card"><span class="stat-icon lavender">☷</span><div><small>إجمالي المهام</small><b id="totalStat">12</b></div><span class="stat-foot">في مساحة العمل</span></article>
+        <article class="stat-card"><span class="stat-icon green">✓</span><div><small>مكتملة</small><b id="doneStat">4</b></div><span class="stat-foot">إنجاز رائع</span></article>
+        <article class="stat-card"><span class="stat-icon peach">◷</span><div><small>قيد التنفيذ</small><b id="activeStat">5</b></div><span class="stat-foot">خطوة بخطوة</span></article>
+        <article class="stat-card"><span class="stat-icon rose">!</span><div><small>تحتاج انتباهك</small><b id="urgentStat">2</b></div><span class="stat-foot">عاجلة أو متأخرة</span></article>
+      </section>
+
+      <section class="calendar-panel" id="calendarView">
+        <div class="calendar-toolbar">
+          <div class="month-control">
+            <button class="month-arrow" id="nextMonth" aria-label="الشهر التالي">‹</button>
+            <button class="month-arrow" id="prevMonth" aria-label="الشهر السابق">›</button>
+            <h2 id="monthLabel">نوفمبر ٢٠٢٦</h2>
+            <button class="today-button" id="todayBtn">اليوم</button>
+          </div>
+          <div class="calendar-actions">
+            <div class="view-toggle"><button class="selected" data-calendar-mode="month">شهر</button><button data-calendar-mode="week">أسبوع</button></div>
+            <button class="filter-button" id="filterButton">☷ <span>تصفية</span></button>
+          </div>
+        </div>
+        <div class="calendar-legend">
+          <span><i class="legend-dot personal"></i> شخصي</span>
+          <span><i class="legend-dot purple"></i> Project 0</span>
+          <span><i class="legend-dot blue"></i> العمل</span>
+          <span class="legend-note">اضغط على أي مهمة لعرض تفاصيلها</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <div class="weekday">الأحد</div><div class="weekday">الإثنين</div><div class="weekday">الثلاثاء</div><div class="weekday">الأربعاء</div><div class="weekday">الخميس</div><div class="weekday">الجمعة</div><div class="weekday">السبت</div>
+          <div class="calendar-days" id="calendarDays"></div>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <article class="upcoming-panel">
+          <div class="section-title"><div><span class="eyebrow">قريباً</span><h3>المهام القادمة</h3></div><button class="text-button" data-view="tasks">عرض الكل ←</button></div>
+          <div id="upcomingList" class="upcoming-list"></div>
+        </article>
+        <article class="focus-card">
+          <div class="focus-orbit">✦</div>
+          <span class="eyebrow">مساحة للتقدّم</span>
+          <h3>خطوة صغيرة<br>تصنع فرقاً كبيراً.</h3>
+          <p>اجعل أولوياتك واضحة، واترك لـ Project 0 تنظيم التفاصيل.</p>
+          <div class="focus-progress"><span style="width:62%"></span></div>
+          <small>تقدّمك هذا الأسبوع <b>٦٢٪</b></small>
+        </article>
+      </section>
+
+      <section class="list-panel hidden" id="tasksView">
+        <div class="list-toolbar"><h2>كل المهام</h2><select id="statusFilter"><option value="all">كل الحالات</option><option value="active">قيد التنفيذ</option><option value="done">مكتملة</option></select></div>
+        <div id="allTasksList"></div>
+      </section>
+      <section class="list-panel hidden" id="inboxView">
+        <div class="list-toolbar"><div><h2>صندوق الوارد</h2><p>التقط الأفكار بسرعة، ثم حوّل ما يناسبك إلى مهمة.</p></div><button class="primary-button" id="newInboxBtn">＋ إضافة فكرة</button></div>
+        <div id="inboxItems"></div>
+      </section>
+      <section class="list-panel hidden" id="recurringView">
+        <div class="list-toolbar"><div><h2>المهام المتكررة</h2><p>مهام تتجدد وفق الجدول الذي تحدده.</p></div></div>
+        <div class="empty-state"><div class="empty-icon">↻</div><b>مساحة التكرار</b><p>ستظهر هنا المهام التي لها قاعدة تكرار.</p></div>
+      </section>
+    </main>
+
+    <aside class="detail-panel" id="detailPanel" aria-label="تفاصيل المهمة">
+      <div class="detail-empty"><div class="detail-empty-icon">✧</div><b>تفاصيل المهمة</b><p>اختر مهمة من التقويم لتظهر تفاصيلها هنا، دون أن تفقد مكانك.</p></div>
+      <div class="detail-content hidden" id="detailContent">
+        <div class="detail-top"><span class="eyebrow">تفاصيل المهمة</span><button class="close-detail" id="closeDetail">×</button></div>
+        <input class="detail-title" id="detailTitle" aria-label="عنوان المهمة">
+        <div class="detail-fields">
+          <label>الحالة<select id="detailStatus"><option value="todo">لم تبدأ</option><option value="active">قيد التنفيذ</option><option value="done">مكتملة</option></select></label>
+          <label>الأولوية<select id="detailPriority"><option value="low">منخفضة</option><option value="normal">عادية</option><option value="high">عالية</option><option value="urgent">عاجلة</option></select></label>
+          <label>تاريخ الاستحقاق<input type="date" id="detailDate"></label>
+          <label>مساحة العمل<select id="detailWorkspace"><option>شخصي</option><option>Project 0</option><option>العمل</option></select></label>
+        </div>
+        <label class="description-label">الوصف</label>
+        <textarea id="detailDescription" rows="5" placeholder="أضف تفاصيل تساعدك على إنجاز المهمة..."></textarea>
+        <div class="detail-footer"><button class="danger-button" id="deleteTask">حذف المهمة</button><button class="primary-button" id="saveTask">حفظ التغييرات</button></div>
+        <div class="detail-hint">يُحفظ التعديل في هذه النسخة التجريبية داخل الجلسة الحالية.</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="modal-backdrop hidden" id="taskModal">
+    <form class="task-modal" id="taskForm">
+      <div class="modal-heading"><div><span class="eyebrow">مهمة جديدة</span><h2>ماذا تريد إنجازه؟</h2></div><button type="button" class="close-detail" id="closeModal">×</button></div>
+      <label>عنوان المهمة<input id="newTaskTitle" required maxlength="120" placeholder="مثال: مراجعة خطة المشروع"></label>
+      <div class="modal-two">
+        <label>تاريخ الاستحقاق<input type="date" id="newTaskDate"></label>
+        <label>مساحة العمل<select id="newTaskWorkspace"><option>شخصي</option><option>Project 0</option><option>العمل</option></select></label>
+      </div>
+      <div class="modal-two">
+        <label>الأولوية<select id="newTaskPriority"><option value="normal">عادية</option><option value="low">منخفضة</option><option value="high">عالية</option><option value="urgent">عاجلة</option></select></label>
+        <label>الحالة<select id="newTaskStatus"><option value="todo">لم تبدأ</option><option value="active">قيد التنفيذ</option></select></label>
+      </div>
+      <label>الوصف<textarea id="newTaskDescription" rows="3" placeholder="تفاصيل إضافية (اختياري)"></textarea></label>
+      <div class="modal-actions"><button type="button" class="secondary-button" id="cancelModal">إلغاء</button><button type="submit" class="primary-button">إضافة المهمة</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
 </body>
 </html>
